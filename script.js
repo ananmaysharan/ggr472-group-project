@@ -4,7 +4,7 @@ const map = new mapboxgl.Map({
 
     container: 'map',
 
-    style: 'mapbox://styles/talhav/cle0a9fvt004d01qwzhe941ll',
+    style: 'mapbox://styles/mapbox/navigation-night-v1',
 
     center: [-79.39830123888215, 43.664695891060376], 
 
