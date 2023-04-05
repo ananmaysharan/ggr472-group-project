@@ -1,4 +1,4 @@
-mapboxgl.accessToken = 'pk.eyJ1IjoidGFsaGF2IiwiYSI6ImNsZG0wdno1MDA0dHMzb2tiNDc5YnFzcm0ifQ.QrkOG_mZti52bYP2Usy-MA'
+mapboxgl.accessToken = 'pk.eyJ1IjoiYW5hbm1heSIsImEiOiJjbDk0azNmY3oxa203M3huMzhyZndlZDRoIn0.1L-fBYplQMuwz0LGctNeiA'
 
 // max bounds
 const maxBounds = [
@@ -63,7 +63,7 @@ map.on('load', () => {
                 2, "#bc5090",
                 3, "#ff6361",
                 4, "#ffa600"
-              ],
+            ],
             'fill-opacity': 0.5
         },
         'layout': {
@@ -91,6 +91,8 @@ map.on('load', () => {
                 4, "#ffa600"
             ]);
             dropdownMenuButton.innerHTML = event.target.innerHTML;
+            document.getElementById('canfed-legend').style.display = 'block';
+            document.getElementById('turnOffButton').style.display = 'block';
         });
     });
 
@@ -98,17 +100,17 @@ map.on('load', () => {
 
     map.addSource('student_nutritional_sites', {
         type: 'vector',
-        url: 'mapbox://bern66.aolwacrf'
+        url: 'mapbox://ananmay.0rhveicp'
     })
 
     map.addLayer({
         'id': 'student_nutritional_sites',
         'type': 'circle',
         'source': 'student_nutritional_sites',
-        'source-layer': 'student_nut_site-1209l8',
+        'source-layer': 'student_nutrition_sites-8kncg0',
         'paint': {
             'circle-radius': 4,
-            'circle-color': 'orange',
+            'circle-color': '#8BD3C7',
             'circle-stroke-width': 1,
             'circle-stroke-color': '#ffffff'
         }
@@ -116,24 +118,225 @@ map.on('load', () => {
 
     map.addSource('community_kitchens', {
         type: 'vector',
-        url: 'mapbox://bern66.22so2hsr'
+        url: 'mapbox://ananmay.6onw09pz'
     })
 
     map.addLayer({
         'id': 'community_kitchens',
         'type': 'circle',
         'source': 'community_kitchens',
-        'source-layer': 'comm_kitchen__fmarkets-d290mv',
+        'source-layer': 'community_kitchens-9ltjd5',
         'paint': {
             'circle-radius': 4,
-            'circle-color': 'pink',
+            'circle-color': '#FCCCE5',
             'circle-stroke-width': 1,
-        'circle-stroke-color': '#ffffff'
+            'circle-stroke-color': '#ffffff'
         }
     });
+
+    // Create a popup, but don't add it to the map yet.
+    const popup = new mapboxgl.Popup({
+        closeButton: false,
+        closeOnClick: false
+    });
+
+    // Add event listeners for both 'places' and 'myLayer'
+    ['student_nutritional_sites', 'community_kitchens'].forEach(layer => {
+        map.on('mouseenter', layer, (e) => {
+            // Change the cursor style as a UI indicator.
+            map.getCanvas().style.cursor = 'pointer';
+
+            // Copy coordinates array.
+            const coordinates = e.features[0].geometry.coordinates.slice();
+            const name = e.features[0].properties.name;
+            const address = e.features[0].properties.address;
+            const type = e.features[0].properties.type;
+
+            // Ensure that if the map is zoomed out such that multiple
+            // copies of the feature are visible, the popup appears
+            // over the copy being pointed to.
+            while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+            }
+
+            // Populate the popup and set its coordinates
+            // based on the feature found.
+            popup.setLngLat(coordinates).setHTML("<h6>" + name + "</h6>" + address + "<br>" + type).addTo(map);
+        });
+
+        map.on('mouseleave', layer, () => {
+            map.getCanvas().style.cursor = '';
+            popup.remove();
+        });
+    });
+
+
+
+    // ASCA Food Layers
+
+    map.addSource('chinesesupermarkets', {
+        'type': 'vector',
+        'url': 'mapbox://talhav.0oxcwp9a'
+
+    });
+    map.addLayer({
+        'id': 'chinesesupermarkets',
+        'type': 'circle',
+        'source': 'chinesesupermarkets',
+        'source-layer': 'Chinese_Supermarkets-28c121',
+        'paint': {
+            'circle-radius': 4,
+            'circle-color': '#BEB9DC',
+            'circle-stroke-width': 1,
+            'circle-stroke-color': '#ffffff'
+        },
+    });
+    
+    map.addSource('middleeasternsupermarkets', {
+        'type': 'vector',
+        'url': 'mapbox://talhav.74xqz6l5'
+    });
+    
+    map.addLayer({
+        'id': 'middleeasternsupermarkets',
+        'type': 'circle',
+        'source': 'middleeasternsupermarkets',
+        'source-layer': 'Middle_Eastern_Supermarkets-75bwdv',
+        'paint': {
+            'circle-radius': 4,
+            'circle-color': '#FFEE65',
+            'circle-stroke-width': 1,
+            'circle-stroke-color': '#ffffff'
+        }
+    });
+   
+    map.addSource('greeenhouses', {
+        'type': 'vector',
+        'url': 'mapbox://talhav.d6upnobv'
+    });
+ 
+    map.addLayer({
+        'id': 'greeenhouses',
+        'type': 'circle',
+        'source': 'greeenhouses',
+        'source-layer': 'greenhouses-aaw1m3',
+        'paint': {
+            'circle-radius': 4,
+            'circle-color': '#B3E061',
+            'circle-stroke-width': 1,
+            'circle-stroke-color': '#ffffff'
+        }
+    });
+   
+    map.addSource('freelowcostmeals', {
+        'type': 'vector',
+        'url': 'mapbox://talhav.1dp28g3w'
+    });
+   
+    map.addLayer({
+        'id': 'freelowcostmeals',
+        'type': 'circle',
+        'source': 'freelowcostmeals',
+        'source-layer': 'Free_Or_Low_Cost_Meal-6zr88t',
+        'paint': {
+            'circle-radius': 4,
+            'circle-color': '#FFB55A',
+            'circle-stroke-width': 1,
+            'circle-stroke-color': '#ffffff'
+        }
+    });
+    
+    map.addSource('foodbanks', {
+        'type': 'vector',
+        'url': 'mapbox://talhav.7mhybwqt'
+    });
+    
+    map.addLayer({
+        'id': 'foodbanks',
+        'type': 'circle',
+        'source': 'foodbanks',
+        'source-layer': 'Food_Banks-3nykfz',
+        'paint': {
+            'circle-radius': 4,
+            'circle-color': '#BD7EBF',
+            'circle-stroke-width': 1,
+            'circle-stroke-color': '#ffffff'
+        }
+    });
+    
+    map.addSource('farmersmarkets', {
+        'type': 'vector',
+        'url': 'mapbox://talhav.dddhkhqd'
+    });
+    
+    map.addLayer({
+        'id': 'farmersmarkets',
+        'type': 'circle',
+        'source': 'farmersmarkets',
+        'source-layer': 'Farmers_Market-dsizul',
+        'paint': {
+            'circle-radius': 4,
+            'circle-color': '#7EB0D5',
+            'circle-stroke-width': 1,
+            'circle-stroke-color': '#ffffff'
+        }
+    });
+    
+    map.addSource('communitygardens', {
+        'type': 'vector',
+        'url': 'mapbox://talhav.7tbz1p5p'
+    });
+    
+    map.addLayer({
+        'id': 'communitygardens',
+        'type': 'circle',
+        'source': 'communitygardens',
+        'source-layer': 'Community_Gardens-27kcls',
+        'paint': {
+            'circle-radius': 4,
+            'circle-color': '#FD7F6F',
+            'circle-stroke-width': 1,
+            'circle-stroke-color': '#ffffff'
+        }
+    });
+
+
+    // Create a popup, but don't add it to the map yet.
+    const popup2 = new mapboxgl.Popup({
+        closeButton: false,
+        closeOnClick: false
+    });
+
+    // Add event listeners for both 'places' and 'myLayer'
+    ['chinesesupermarkets', 'middleeasternsupermarkets', 'greeenhouses', 'freelowcostmeals', 'foodbanks', 'farmersmarkets', 'communitygardens'].forEach(layer => {
+        map.on('mouseenter', layer, (e) => {
+            // Change the cursor style as a UI indicator.
+            map.getCanvas().style.cursor = 'pointer';
+
+            // Copy coordinates array.
+            const coordinates = e.features[0].geometry.coordinates.slice();
+            const name = e.features[0].properties.Name;
+            const description = e.features[0].properties.description;
+
+            // Ensure that if the map is zoomed out such that multiple
+            // copies of the feature are visible, the popup appears
+            // over the copy being pointed to.
+            while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+            }
+
+            // Populate the popup and set its coordinates
+            // based on the feature found.
+            popup2.setLngLat(coordinates).setHTML("<h6>" + name + "</h6>" + description).addTo(map);
+        });
+
+        map.on('mouseleave', layer, () => {
+            map.getCanvas().style.cursor = '';
+            popup2.remove();
+        });
+    });
+
 });
-
-
 
 
 //add event listener for full screen on button click
@@ -148,9 +351,11 @@ document.getElementById('returnbutton').addEventListener('click', () => {
 //CANFED interactivity
 
 const turnOffButton = document.getElementById('turnOffButton');
-turnOffButton.addEventListener('click', function() {
-map.setLayoutProperty('canfed', 'visibility', 'none');
-dropdownMenuButton.innerHTML = 'Select Layer';
+turnOffButton.addEventListener('click', function () {
+    map.setLayoutProperty('canfed', 'visibility', 'none');
+    document.getElementById('canfed-legend').style.display = 'none';
+    document.getElementById('turnOffButton').style.display = 'none';
+    dropdownMenuButton.innerHTML = 'Select Layer';
 });
 
 
@@ -168,7 +373,7 @@ const legendlabels = [
 ];
 
 const legendcolours = [
-    '#003f5c',
+    '#8BD3C7',
     '#58508d',
     '#bc5090',
     '#ff6361',
@@ -176,7 +381,7 @@ const legendcolours = [
 ];
 
 //Declare legend variable using legend div tag
-const legend = document.getElementById('legend');
+const legend = document.getElementById('canfed-legend');
 
 //For each layer create a block to put the colour and label in
 legendlabels.forEach((label, i) => {
@@ -196,3 +401,53 @@ legendlabels.forEach((label, i) => {
 
     legend.appendChild(item); //add row to the legend
 });
+
+
+
+//Declare arrayy variables for labels and colours
+const legendlabels2 = [
+    'Student Nutritional Sites',
+    'Community Kitchens',
+    'Chinese Supermarkets',
+    'Middle Eastern Supermarkets',
+    'Greeenhouses',
+    'Free or Low Cost Meal',
+    'Foodbanks',
+    'Farmers Markets',
+    'Community Gardens',
+];
+
+const legendcolours2 = [
+    '#003f5c',
+    '#FCCCE5',
+    '#BEB9DC',
+    '#FFEE65',
+    '#B3E061',
+    '#FFB55A',
+    '#BD7EBF',
+    '#7EB0D5',
+    '#FD7F6F'
+];
+
+//Declare legend variable using legend div tag
+const legend2 = document.getElementById('points-legend');
+
+//For each layer create a block to put the colour and label in
+legendlabels2.forEach((label, i) => {
+    const color = legendcolours2[i];
+
+    const item = document.createElement('div'); //each layer gets a 'row' - this isn't in the legend yet, we do this later
+    const key = document.createElement('span'); //add a 'key' to the row. A key will be the color circle
+
+    key.className = 'legend-key'; //the key will take on the shape and style properties defined in css
+    key.style.backgroundColor = color; // the background color is retreived from teh layers array
+
+    const value = document.createElement('span'); //add a value variable to the 'row' in the legend
+    value.innerHTML = `${label}`; //give the value variable text based on the label
+
+    item.appendChild(key); //add the key (color cirlce) to the legend row
+    item.appendChild(value); //add the value to the legend row
+
+    legend2.appendChild(item); //add row to the legend
+});
+
