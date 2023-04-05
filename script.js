@@ -2,7 +2,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiYW5hbm1heSIsImEiOiJjbDk0azNmY3oxa203M3huMzhyZ
 
 // max bounds
 const maxBounds = [
-    [-79.6772, 43.4000], // SW coords
+    [-79.6772, 43.4400], // SW coords
     [-79.04763, 44.03074] // NE coords
 ];
 
@@ -10,10 +10,10 @@ const maxBounds = [
 const map = new mapboxgl.Map({
     container: "map", // container ID
     style: "mapbox://styles/mapbox/navigation-night-v1", // custom Mapbox Studio style URL
-    center: [-79.3832, 43.3432], // starting center in [lng, lat]
-    zoom: 7,
-    maxBounds: maxBounds,
-    //bearing: -17.1,
+    center: [-79.37, 43.715], // starting center in [lng, lat]
+    zoom: 10,
+    maxZoom: 16,
+    //maxBounds: maxBounds,
 });
 
 
@@ -113,6 +113,9 @@ map.on('load', () => {
             'circle-color': '#8BD3C7',
             'circle-stroke-width': 1,
             'circle-stroke-color': '#ffffff'
+        },
+        'layout': {
+            'visibility': 'visible'
         }
     });
 
@@ -131,6 +134,9 @@ map.on('load', () => {
             'circle-color': '#FCCCE5',
             'circle-stroke-width': 1,
             'circle-stroke-color': '#ffffff'
+        },
+        'layout': {
+            'visibility': 'visible'
         }
     });
 
@@ -190,6 +196,9 @@ map.on('load', () => {
             'circle-stroke-width': 1,
             'circle-stroke-color': '#ffffff'
         },
+        'layout': {
+            'visibility': 'visible'
+        }
     });
     
     map.addSource('middleeasternsupermarkets', {
@@ -207,6 +216,9 @@ map.on('load', () => {
             'circle-color': '#FFEE65',
             'circle-stroke-width': 1,
             'circle-stroke-color': '#ffffff'
+        },
+        'layout': {
+            'visibility': 'visible'
         }
     });
    
@@ -225,6 +237,9 @@ map.on('load', () => {
             'circle-color': '#B3E061',
             'circle-stroke-width': 1,
             'circle-stroke-color': '#ffffff'
+        },
+        'layout': {
+            'visibility': 'visible'
         }
     });
    
@@ -243,6 +258,9 @@ map.on('load', () => {
             'circle-color': '#FFB55A',
             'circle-stroke-width': 1,
             'circle-stroke-color': '#ffffff'
+        },
+        'layout': {
+            'visibility': 'visible'
         }
     });
     
@@ -261,6 +279,9 @@ map.on('load', () => {
             'circle-color': '#BD7EBF',
             'circle-stroke-width': 1,
             'circle-stroke-color': '#ffffff'
+        },
+        'layout': {
+            'visibility': 'visible'
         }
     });
     
@@ -279,6 +300,9 @@ map.on('load', () => {
             'circle-color': '#7EB0D5',
             'circle-stroke-width': 1,
             'circle-stroke-color': '#ffffff'
+        },
+        'layout': {
+            'visibility': 'visible'
         }
     });
     
@@ -297,6 +321,9 @@ map.on('load', () => {
             'circle-color': '#FD7F6F',
             'circle-stroke-width': 1,
             'circle-stroke-color': '#ffffff'
+        },
+        'layout': {
+            'visibility': 'visible'
         }
     });
 
@@ -418,7 +445,7 @@ const legendlabels2 = [
 ];
 
 const legendcolours2 = [
-    '#003f5c',
+    '#8BD3C7',
     '#FCCCE5',
     '#BEB9DC',
     '#FFEE65',
@@ -449,5 +476,26 @@ legendlabels2.forEach((label, i) => {
     item.appendChild(value); //add the value to the legend row
 
     legend2.appendChild(item); //add row to the legend
+});
+
+//checkbox
+
+// Get all the checkboxes
+const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+// Iterate over the checkboxes
+checkboxes.forEach(function(checkbox) {
+  // Add an event listener for each checkbox
+  checkbox.addEventListener('change', function() {
+    const layerId = this.parentNode.id; // Get the id of the list item
+    const layer = map.getLayer(layerId); // Get the layer with the same id as the list item
+
+    // If the checkbox is checked, show the layer; otherwise, hide it
+    if (this.checked) {
+      map.setLayoutProperty(layerId, 'visibility', 'visible');
+    } else {
+      map.setLayoutProperty(layerId, 'visibility', 'none');
+    }
+  });
 });
 

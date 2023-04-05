@@ -32,39 +32,55 @@
     <div id=map class=map> </div>
     <!-- nav elements -->
     <div class='map-overlay'>
-        <h4>Toronto Food Support and Education Map</h4>
-        <hr class="hr"/>
+        <h6>Toronto Food Support and Education Map</h6>
+        <hr class="hr" />
         <label>Search for an area in Toronto</label>
         <div id="geocoder" class="geocoder"></div>
-        <button type="button" class="btn btn-primary btn-sm" id="returnbutton">Return to full extent</button>
-        <hr class="hr"/>
+        <button type="button" class="btn btn-primary btn-sm" id="returnbutton">Return to Full View</button>
+        <hr class="hr" />
         <div class="list-group">
-            <label class="list-group-item">
-              <input class="form-check-input me-1" type="checkbox" value="">
-              First checkbox
+            <label class="list-group-item" id="student_nutritional_sites">
+                <input class="form-check-input me-1" type="checkbox" value="" checked>
+                Student Nutritional Sites
             </label>
-            <label class="list-group-item">
-              <input class="form-check-input me-1" type="checkbox" value="">
-              Second checkbox
+            <label class="list-group-item" id="community_kitchens">
+                <input class="form-check-input me-1" type="checkbox" value="" checked>
+                Community Kitchens
             </label>
-            <label class="list-group-item">
-              <input class="form-check-input me-1" type="checkbox" value="">
-              Third checkbox
+            <label class="list-group-item" id="chinesesupermarkets">
+                <input class="form-check-input me-1" type="checkbox" value="" checked>
+                Chinese Markets
             </label>
-            <label class="list-group-item">
-              <input class="form-check-input me-1" type="checkbox" value="">
-              Fourth checkbox
+            <label class="list-group-item" id="middleeasternsupermarkets">
+                <input class="form-check-input me-1" type="checkbox" value="" checked>
+                Middle Eastern Markets
             </label>
-            <label class="list-group-item">
-              <input class="form-check-input me-1" type="checkbox" value="">
-              Fifth checkbox
+            <label class="list-group-item" id="greeenhouses">
+                <input class="form-check-input me-1" type="checkbox" value="" checked>
+                Greenhouses
             </label>
-          </div>
-        <hr class="hr"/>
+            <label class="list-group-item" id="freelowcostmeals">
+                <input class="form-check-input me-1" type="checkbox" value="" checked>
+                Free or Low Cost Meal
+            </label>
+            <label class="list-group-item" id="foodbanks">
+                <input class="form-check-input me-1" type="checkbox" value="" checked>
+                Foodbanks
+            </label>
+            <label class="list-group-item" id="farmersmarkets">
+                <input class="form-check-input me-1" type="checkbox" value="" checked>
+                Farmers Markets
+            </label>
+            <label class="list-group-item" id="communitygardens">
+                <input class="form-check-input me-1" type="checkbox" value="" checked>
+                Community Gardens
+            </label>
+        </div>
+        <hr class="hr" />
         <label>View the Distribution of Food Establishments</label>
         <div class="dropdown">
-            <button class="btn btn-outline-primary dropdown-toggle btn-sm m-1" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
+            <button class="btn btn-outline-primary dropdown-toggle btn-sm m-1" type="button" id="dropdownMenuButton"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Select Layer
             </button>
             <button type="button" class="btn btn-secondary btn-sm m-1" id="turnOffButton">Turn Layer off</button>
@@ -81,14 +97,14 @@
         </div>
     </div>
 
-        <!-- legends -->
-        <div id='canfed-legend' class='legend'>
-            <h5>Food Establishment Density Score</h5>
-        </div>
+    <!-- legends -->
+    <div id='canfed-legend' class='legend'>
+        <h5>Food Establishment Density Score</h5>
+    </div>
 
-        <div id='points-legend' class='legend'>
-            <h5>Legend</h5>
-        </div>
+    <div id='points-legend' class='legend'>
+        <h5>Legend</h5>
+    </div>
 
     <script src='script.js'> </script>
 </body>

@@ -10,13 +10,14 @@
 .map-overlay {
     position: relative;
     font: 14px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-    background: rgba(255, 255, 255, 0.8);
+    background: #fff;
     top: 0;
     left: 0;
     width: 260px;
     margin: 10px 10px 0 10px;
     padding: 10px;
     overflow: visible;
+    border-radius:8px;
 }
 
 .geocoder {
@@ -30,9 +31,18 @@
     width: 100%;
 }
 
+
+.list-group .list-group-item {
+    position: relative;
+    display: block;
+    padding: 0.75rem 2.25rem;
+}
+
 #turnOffButton {
     display:none;
 }
+
+
 
 
 .legend {
