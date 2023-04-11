@@ -100,14 +100,14 @@ map.on('load', () => {
 
     map.addSource('student_nutritional_sites', {
         type: 'vector',
-        url: 'mapbox://ananmay.0rhveicp'
+        url: 'mapbox://ananmay.7karw46o'
     })
 
     map.addLayer({
         'id': 'student_nutritional_sites',
         'type': 'circle',
         'source': 'student_nutritional_sites',
-        'source-layer': 'student_nutrition_sites-8kncg0',
+        'source-layer': 'student_nutrition_sites-d4xukj',
         'paint': {
             'circle-radius': 4,
             'circle-color': '#8BD3C7',
