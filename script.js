@@ -21,12 +21,14 @@ const maxBounds = [
 //initialize map
 const map = new mapboxgl.Map({
     container: "map", // container ID
-    style: "mapbox://styles/mapbox/light-v11", // custom Mapbox Studio style URL
+    style: "mapbox://styles/mapbox/dark-v11", // custom Mapbox Studio style URL
     center: [-79.37, 43.715], // starting center in [lng, lat]
     zoom: 10,
     maxZoom: 16,
     //maxBounds: maxBounds,
 });
+
+
 
 
 /*--------------------------------------------------------------------
