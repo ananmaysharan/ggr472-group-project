@@ -62,6 +62,18 @@ document.getElementById('returnbutton').addEventListener('click', () => {
     });
 });
 
+/*--------------------------------------------------------------------
+Load external GeoJSONs
+--------------------------------------------------------------------*/
+
+// Fetch GeoJSON from URL and store response
+fetch('https://raw.githubusercontent.com/ananmaysharan/ggr472-group-project/main/data/visible_minorities.geojson')
+    .then(response => response.json())
+    .then(response => {
+        console.log(response); //Check response in console
+        pointData = response; // Store geojson as variable using URL from fetch response
+    });
+
 
 /*--------------------------------------------------------------------
 map load
@@ -69,11 +81,11 @@ map load
 
 map.on('load', () => {
 
-/*--------------------------------------------------------------------
-RESOURCES
---------------------------------------------------------------------*/
+    /*--------------------------------------------------------------------
+    RESOURCES
+    --------------------------------------------------------------------*/
 
-// Dinesafe
+    // Dinesafe
 
     map.addSource('student_nutritional_sites', {
         type: 'vector',
@@ -339,62 +351,62 @@ RESOURCES
 EDUCATION 
 --------------------------------------------------------------------*/
 
-// CANFED Layer
+    // CANFED Layer
 
-let canfed_layer = 'convenience'; // initialize with default layer
+    let canfed_layer = 'convenience'; // initialize with default layer
 
-map.addSource('canfed', {
-    type: 'geojson',
-    // using a URL for the external geojson to load.
-    data: 'https://raw.githubusercontent.com/ananmaysharan/ggr472-group-project/main/data/canfed_cleaned.geojson'
-});
-
-map.addLayer({
-    'id': 'canfed',
-    'type': 'fill',
-    'source': 'canfed', // matching source ID from addSource method
-    'paint': {
-        'fill-color': [
-            "interpolate",
-            ["linear"],
-            ["to-number", ["get", canfed_layer]],
-            0, "#003f5c",
-            1, "#58508d",
-            2, "#bc5090",
-            3, "#ff6361",
-            4, "#ffa600"
-        ],
-        'fill-opacity': 0.5
-    },
-    'layout': {
-        'visibility': 'none'
-    }
-},
-);
-
-const dropdownMenuButton = document.getElementById('dropdownMenuButton');
-
-
-document.querySelectorAll('.dropdown-item').forEach(link => {
-    link.addEventListener('click', (event) => {
-        map.setLayoutProperty('canfed', 'visibility', 'visible'); // set layer to visible
-        // set chloropleth the the layer that is clicked
-        canfed_layer = link.id;
-        map.setPaintProperty('canfed', 'fill-color', [
-            "interpolate",
-            ["linear"],
-            ["to-number", ["get", canfed_layer]],
-            0, "#003f5c",
-            1, "#58508d",
-            2, "#bc5090",
-            3, "#ff6361",
-            4, "#ffa600"
-        ]);
-        dropdownMenuButton.innerHTML = event.target.innerHTML;
-        document.getElementById('canfed-legend').style.display = 'block';
-        document.getElementById('turnOffButton').style.display = 'block';
+    map.addSource('canfed', {
+        type: 'geojson',
+        // using a URL for the external geojson to load.
+        data: 'https://raw.githubusercontent.com/ananmaysharan/ggr472-group-project/main/data/canfed_cleaned.geojson'
     });
-});
+
+    map.addLayer({
+        'id': 'canfed',
+        'type': 'fill',
+        'source': 'canfed', // matching source ID from addSource method
+        'paint': {
+            'fill-color': [
+                "interpolate",
+                ["linear"],
+                ["to-number", ["get", canfed_layer]],
+                0, "#003f5c",
+                1, "#58508d",
+                2, "#bc5090",
+                3, "#ff6361",
+                4, "#ffa600"
+            ],
+            'fill-opacity': 0.5
+        },
+        'layout': {
+            'visibility': 'none'
+        }
+    },
+    );
+
+    const dropdownMenuButton = document.getElementById('dropdownMenuButton');
+
+
+    document.querySelectorAll('.dropdown-item').forEach(link => {
+        link.addEventListener('click', (event) => {
+            map.setLayoutProperty('canfed', 'visibility', 'visible'); // set layer to visible
+            // set chloropleth the the layer that is clicked
+            canfed_layer = link.id;
+            map.setPaintProperty('canfed', 'fill-color', [
+                "interpolate",
+                ["linear"],
+                ["to-number", ["get", canfed_layer]],
+                0, "#003f5c",
+                1, "#58508d",
+                2, "#bc5090",
+                3, "#ff6361",
+                4, "#ffa600"
+            ]);
+            dropdownMenuButton.innerHTML = event.target.innerHTML;
+            document.getElementById('canfed-legend').style.display = 'block';
+            document.getElementById('turnOffButton').style.display = 'block';
+        });
+    });
 
 
     // Turf.js Sociodemographic layers (3D Peaks)
@@ -637,11 +649,5 @@ legendlabels2.forEach((label, i) => {
     legend2.appendChild(item); //add row to the legend
 });
 
-// Fetch GeoJSON from URL and store response
-fetch('https://raw.githubusercontent.com/ananmaysharan/ggr472-group-project/main/data/visible_minorities.geojson')
-    .then(response => response.json())
-    .then(response => {
-        console.log(response); //Check response in console
-        pointData = response; // Store geojson as variable using URL from fetch response
-    });
+
 
