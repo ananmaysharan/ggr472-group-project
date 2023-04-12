@@ -6,7 +6,8 @@ map set up
 
 // Variable set up
 
-let pointData = [];
+let vismingeojson = [];
+let lowincgeojson = [];
 let mapArray = [];
 let labelArray = [];
 let labelCollection;
@@ -70,10 +71,9 @@ Load external GeoJSONs
 fetch('https://raw.githubusercontent.com/ananmaysharan/ggr472-group-project/main/data/visible_minorities.geojson')
     .then(response => response.json())
     .then(response => {
-        console.log(response); //Check response in console
+        // console.log(response); //Check response in console
         pointData = response; // Store geojson as variable using URL from fetch response
     });
-
 
 /*--------------------------------------------------------------------
 map load
@@ -110,17 +110,40 @@ map.on('load', () => {
 
     map.addSource('community_kitchens', {
         type: 'vector',
-        url: 'mapbox://ananmay.6onw09pz'
+        url: 'mapbox://ananmay.dclsg3id'
     })
 
     map.addLayer({
         'id': 'community_kitchens',
         'type': 'circle',
         'source': 'community_kitchens',
-        'source-layer': 'community_kitchens-9ltjd5',
+        'source-layer': 'community_kitchens-dfsupd',
         'paint': {
             'circle-radius': 4,
             'circle-color': '#FCCCE5',
+            'circle-stroke-width': 1,
+            'circle-stroke-color': '#ffffff'
+        },
+        'layout': {
+            'visibility': 'visible'
+        }
+    });
+
+    // Community Fridges
+
+    map.addSource('community_fridges', {
+        type: 'vector',
+        url: 'mapbox://ananmay.abi9ch4i'
+    })
+
+    map.addLayer({
+        'id': 'community_fridges',
+        'type': 'circle',
+        'source': 'community_fridges',
+        'source-layer': 'community_fridges-61bigg',
+        'paint': {
+            'circle-radius': 4,
+            'circle-color': '#FD7F6F',
             'circle-stroke-width': 1,
             'circle-stroke-color': '#ffffff'
         },
@@ -161,6 +184,38 @@ map.on('load', () => {
             map.getCanvas().style.cursor = '';
         });
     });
+
+    // Create a popup, but don't add it to the map yet.
+    const popup3 = new mapboxgl.Popup({
+    });
+
+    // Add event listeners for both 'student_nutritional_sites' and 'community_kitchens'
+    ['community_fridges'].forEach(layer => {
+        map.on('mouseenter', layer, (e) => {
+            // Change the cursor style as a UI indicator.
+            map.getCanvas().style.cursor = 'pointer';
+
+            // Copy coordinates array.
+            const coordinates = e.features[0].geometry.coordinates.slice();
+            const name = e.features[0].properties.name;
+
+            // Ensure that if the map is zoomed out such that multiple
+            // copies of the feature are visible, the popup appears
+            // over the copy being pointed to.
+            while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+            }
+
+            // Populate the popup and set its coordinates
+            // based on the feature found.
+            popup3.setLngLat(coordinates).setHTML("<a href='" + "https://www.google.com/maps/search/?api=1&query=" + coordinates[1] + "," + coordinates[0] + "'>" + name + "</a>").addTo(map);
+        });
+
+        map.on('mouseleave', layer, () => {
+            map.getCanvas().style.cursor = '';
+        });
+    });
+
 
     // ASCA Food Map Layers
 
@@ -290,26 +345,26 @@ map.on('load', () => {
         }
     });
 
-    map.addSource('communitygardens', {
-        'type': 'vector',
-        'url': 'mapbox://talhav.7tbz1p5p'
-    });
+    // map.addSource('communitygardens', {
+    //     'type': 'vector',
+    //     'url': 'mapbox://talhav.7tbz1p5p'
+    // });
 
-    map.addLayer({
-        'id': 'communitygardens',
-        'type': 'circle',
-        'source': 'communitygardens',
-        'source-layer': 'Community_Gardens-27kcls',
-        'paint': {
-            'circle-radius': 4,
-            'circle-color': '#FD7F6F',
-            'circle-stroke-width': 1,
-            'circle-stroke-color': '#ffffff'
-        },
-        'layout': {
-            'visibility': 'visible'
-        }
-    });
+    // map.addLayer({
+    //     'id': 'communitygardens',
+    //     'type': 'circle',
+    //     'source': 'communitygardens',
+    //     'source-layer': 'Community_Gardens-27kcls',
+    //     'paint': {
+    //         'circle-radius': 4,
+    //         'circle-color': '#FD7F6F',
+    //         'circle-stroke-width': 1,
+    //         'circle-stroke-color': '#ffffff'
+    //     },
+    //     'layout': {
+    //         'visibility': 'visible'
+    //     }
+    // });
 
 
     // Create a popup, but don't add it to the map yet.
@@ -500,8 +555,8 @@ function buildLines(lines) {
             ]
         }
     });
-
 }
+
 
 // CANFED Interactivity
 
@@ -535,25 +590,7 @@ checkboxes.forEach(function (checkbox) {
 });
 
 
-// Radio Interactivity
 
-// Get all the radios
-const radios = document.querySelectorAll('input[type="radio"]');
-
-// Iterate over the radios
-radios.forEach(function (radio) {
-    // Add an event listener for each radio
-    radio.addEventListener('change', function () {
-        const layerId = this.parentNode.id; // Get the id of the list item
-        const layer = map.getLayer(layerId); // Get the layer with the same id as the list item
-        // If the checkbox is checked, show the layer; otherwise, hide it
-        if (this.checked) {
-            map.setLayoutProperty(layerId, 'visibility', 'visible');
-        } else {
-            map.setLayoutProperty(layerId, 'visibility', 'none');
-        }
-    });
-});
 
 /*--------------------------------------------------------------------
 LEGENDS
@@ -602,12 +639,12 @@ legendlabels.forEach((label, i) => {
 
 //Declare arrayy variables for labels and colours
 const legendlabels2 = [
-    'Community Kitchens',
-    'Greeenhouses',
     'Free or Low Cost Meal',
     'Foodbanks',
+    'Community Fridges',
     'Farmers Markets',
-    'Community Gardens',
+    'Community Kitchens',
+    'Greeenhouses',
     '',
     'Student Nutritional Sites',
     'Chinese Supermarkets',
@@ -615,12 +652,12 @@ const legendlabels2 = [
 ];
 
 const legendcolours2 = [
-    '#FCCCE5',
-    '#B3E061',
     '#FFB55A',
     '#BD7EBF',
-    '#7EB0D5',
     '#FD7F6F',
+    '#7EB0D5',
+    '#FCCCE5',
+    '#B3E061',
     '#FFFFFF',
     '#8BD3C7',
     '#BEB9DC',
