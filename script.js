@@ -1,27 +1,29 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiYW5hbm1heSIsImEiOiJjbDk0azNmY3oxa203M3huMzhyZndlZDRoIn0.1L-fBYplQMuwz0LGctNeiA'
 
+/*--------------------------------------------------------------------
+map set up
+--------------------------------------------------------------------*/
 
-//peak testing
+// Variable set up
 
-var pointData = [];
-var mapArray = [];
-var labelArray = [];
-var labelCollection;
-var lineCollection;
-var peakHeightCalc = 20000;
-var animateState = true;
+let pointData = [];
+let mapArray = [];
+let labelArray = [];
+let labelCollection;
+let lineCollection;
+let peakHeightCalc = 20000;
+let animateState = true;
 
-
-// max bounds
+// Max bounds
 const maxBounds = [
     [-79.6772, 43.4400], // SW coords
     [-79.04763, 44.03074] // NE coords
 ];
 
-//initialize map
+// Initialize map
 const map = new mapboxgl.Map({
     container: "map", // container ID
-    style: "mapbox://styles/mapbox/dark-v11", // custom Mapbox Studio style URL
+    style: "mapbox://styles/mapbox/light-v11", // custom Mapbox Studio style URL
     center: [-79.37, 43.715], // starting center in [lng, lat]
     zoom: 10,
     maxZoom: 16,
@@ -29,88 +31,49 @@ const map = new mapboxgl.Map({
 });
 
 
-
-
 /*--------------------------------------------------------------------
 adding controls
 --------------------------------------------------------------------*/
-//add zoom and rotation controls 
+
+// Add zoom and rotation controls 
 map.addControl(new mapboxgl.NavigationControl());
 
-//add fullscreen option to the map
+// Add fullscreen option to the map
 map.addControl(new mapboxgl.FullscreenControl());
 
-//create geocoder variable, only show Toronto area results
+// Geocoder
+
+// Create geocoder variable, only show Toronto area results
 const geocoder = new MapboxGeocoder({
     accessToken: mapboxgl.accessToken,
     mapboxgl: mapboxgl,
     countries: "ca",
     place: "Toronto"
 });
-
-//position geocoder on page
+// Position geocoder on page
 document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
 
+// Add event listener for full screen on button click
+document.getElementById('returnbutton').addEventListener('click', () => {
+    map.flyTo({
+        center: [-79.3832, 43.6932],
+        zoom: 10,
+        essential: true
+    });
+});
+
+
+/*--------------------------------------------------------------------
+map load
+--------------------------------------------------------------------*/
 
 map.on('load', () => {
 
-    // canfed layer
-    let canfed_layer = 'convenience'; // initialize with default layer
+/*--------------------------------------------------------------------
+RESOURCES
+--------------------------------------------------------------------*/
 
-    map.addSource('canfed', {
-        type: 'geojson',
-        // using a URL for the external geojson to load.
-        data: 'https://raw.githubusercontent.com/ananmaysharan/ggr472-group-project/main/data/canfed_cleaned.geojson'
-    });
-
-    map.addLayer({
-        'id': 'canfed',
-        'type': 'fill',
-        'source': 'canfed', // matching source ID from addSource method
-        'paint': {
-            'fill-color': [
-                "interpolate",
-                ["linear"],
-                ["to-number", ["get", canfed_layer]],
-                0, "#003f5c",
-                1, "#58508d",
-                2, "#bc5090",
-                3, "#ff6361",
-                4, "#ffa600"
-            ],
-            'fill-opacity': 0.5
-        },
-        'layout': {
-            'visibility': 'none'
-        }
-    },
-    );
-
-    const dropdownMenuButton = document.getElementById('dropdownMenuButton');
-
-
-    document.querySelectorAll('.dropdown-item').forEach(link => {
-        link.addEventListener('click', (event) => {
-            map.setLayoutProperty('canfed', 'visibility', 'visible'); // set layer to visible
-            // set chloropleth the the layer that is clicked
-            canfed_layer = link.id;
-            map.setPaintProperty('canfed', 'fill-color', [
-                "interpolate",
-                ["linear"],
-                ["to-number", ["get", canfed_layer]],
-                0, "#003f5c",
-                1, "#58508d",
-                2, "#bc5090",
-                3, "#ff6361",
-                4, "#ffa600"
-            ]);
-            dropdownMenuButton.innerHTML = event.target.innerHTML;
-            document.getElementById('canfed-legend').style.display = 'block';
-            document.getElementById('turnOffButton').style.display = 'block';
-        });
-    });
-
-    // DINESAFE
+// Dinesafe
 
     map.addSource('student_nutritional_sites', {
         type: 'vector',
@@ -129,7 +92,7 @@ map.on('load', () => {
             'circle-stroke-color': '#ffffff'
         },
         'layout': {
-            'visibility': 'visible'
+            'visibility': 'none'
         }
     });
 
@@ -158,7 +121,7 @@ map.on('load', () => {
     const popup = new mapboxgl.Popup({
     });
 
-    // Add event listeners for both 'places' and 'myLayer'
+    // Add event listeners for both 'student_nutritional_sites' and 'community_kitchens'
     ['student_nutritional_sites', 'community_kitchens'].forEach(layer => {
         map.on('mouseenter', layer, (e) => {
             // Change the cursor style as a UI indicator.
@@ -187,9 +150,7 @@ map.on('load', () => {
         });
     });
 
-
-
-    // ASCA Food Layers
+    // ASCA Food Map Layers
 
     map.addSource('chinesesupermarkets', {
         'type': 'vector',
@@ -208,7 +169,7 @@ map.on('load', () => {
             'circle-stroke-color': '#ffffff'
         },
         'layout': {
-            'visibility': 'visible'
+            'visibility': 'none'
         }
     });
 
@@ -229,7 +190,7 @@ map.on('load', () => {
             'circle-stroke-color': '#ffffff'
         },
         'layout': {
-            'visibility': 'visible'
+            'visibility': 'none'
         }
     });
 
@@ -374,8 +335,69 @@ map.on('load', () => {
         });
     });
 
+    /*--------------------------------------------------------------------
+EDUCATION 
+--------------------------------------------------------------------*/
 
-    // turf js peaks
+// CANFED Layer
+
+let canfed_layer = 'convenience'; // initialize with default layer
+
+map.addSource('canfed', {
+    type: 'geojson',
+    // using a URL for the external geojson to load.
+    data: 'https://raw.githubusercontent.com/ananmaysharan/ggr472-group-project/main/data/canfed_cleaned.geojson'
+});
+
+map.addLayer({
+    'id': 'canfed',
+    'type': 'fill',
+    'source': 'canfed', // matching source ID from addSource method
+    'paint': {
+        'fill-color': [
+            "interpolate",
+            ["linear"],
+            ["to-number", ["get", canfed_layer]],
+            0, "#003f5c",
+            1, "#58508d",
+            2, "#bc5090",
+            3, "#ff6361",
+            4, "#ffa600"
+        ],
+        'fill-opacity': 0.5
+    },
+    'layout': {
+        'visibility': 'none'
+    }
+},
+);
+
+const dropdownMenuButton = document.getElementById('dropdownMenuButton');
+
+
+document.querySelectorAll('.dropdown-item').forEach(link => {
+    link.addEventListener('click', (event) => {
+        map.setLayoutProperty('canfed', 'visibility', 'visible'); // set layer to visible
+        // set chloropleth the the layer that is clicked
+        canfed_layer = link.id;
+        map.setPaintProperty('canfed', 'fill-color', [
+            "interpolate",
+            ["linear"],
+            ["to-number", ["get", canfed_layer]],
+            0, "#003f5c",
+            1, "#58508d",
+            2, "#bc5090",
+            3, "#ff6361",
+            4, "#ffa600"
+        ]);
+        dropdownMenuButton.innerHTML = event.target.innerHTML;
+        document.getElementById('canfed-legend').style.display = 'block';
+        document.getElementById('turnOffButton').style.display = 'block';
+    });
+});
+
+
+    // Turf.js Sociodemographic layers (3D Peaks)
 
     for (i = 0; i < pointData.features.length; i++) {
 
@@ -383,7 +405,6 @@ map.on('load', () => {
         let barHeightAdj = barHeight / peakHeightCalc;
         let barShuffle = Math.floor(Math.random() * (1000 - 100) + 100) / 500000;
 
-        // working perk line
         let peakRandomCentre = barShuffleNum(i, barShuffle, pointData);
 
         let peakLeftLat = pointData.features[i].geometry.coordinates[1];
@@ -405,16 +426,15 @@ map.on('load', () => {
 
         if (i == pointData.features.length - 1) {
             console.log('done calc');
-            //console.log('mapArray', mapArray);
-
             lineCollection = turf.featureCollection(mapArray);
             labelCollection = turf.featureCollection(labelArray);
-            //console.log('collection', labelCollection);
             buildLines(lineCollection, labelCollection);
         }
     }
 
 });
+
+// Turf.js Sociodemographic Functions (3D Peaks)
 
 
 function barShuffleNum(num, random, layer) {
@@ -428,7 +448,6 @@ function barShuffleNum(num, random, layer) {
     }
 
 }
-
 
 function buildLines(lines) {
 
@@ -472,16 +491,7 @@ function buildLines(lines) {
 
 }
 
-//add event listener for full screen on button click
-document.getElementById('returnbutton').addEventListener('click', () => {
-    map.flyTo({
-        center: [-79.3832, 43.6932],
-        zoom: 10,
-        essential: true
-    });
-});
-
-//CANFED interactivity
+// CANFED Interactivity
 
 const turnOffButton = document.getElementById('turnOffButton');
 turnOffButton.addEventListener('click', function () {
@@ -491,9 +501,50 @@ turnOffButton.addEventListener('click', function () {
     dropdownMenuButton.innerHTML = 'Select Layer';
 });
 
+// Checkbox Interactivity
+
+// Get all the checkboxes
+const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+// Iterate over the checkboxes
+checkboxes.forEach(function (checkbox) {
+    // Add an event listener for each checkbox
+    checkbox.addEventListener('change', function () {
+        const layerId = this.parentNode.id; // Get the id of the list item
+        const layer = map.getLayer(layerId); // Get the layer with the same id as the list item
+
+        // If the checkbox is checked, show the layer; otherwise, hide it
+        if (this.checked) {
+            map.setLayoutProperty(layerId, 'visibility', 'visible');
+        } else {
+            map.setLayoutProperty(layerId, 'visibility', 'none');
+        }
+    });
+});
+
+
+// Radio Interactivity
+
+// Get all the radios
+const radios = document.querySelectorAll('input[type="radio"]');
+
+// Iterate over the radios
+radios.forEach(function (radio) {
+    // Add an event listener for each radio
+    radio.addEventListener('change', function () {
+        const layerId = this.parentNode.id; // Get the id of the list item
+        const layer = map.getLayer(layerId); // Get the layer with the same id as the list item
+        // If the checkbox is checked, show the layer; otherwise, hide it
+        if (this.checked) {
+            map.setLayoutProperty(layerId, 'visibility', 'visible');
+        } else {
+            map.setLayoutProperty(layerId, 'visibility', 'none');
+        }
+    });
+});
 
 /*--------------------------------------------------------------------
-CREATE LEGEND IN JAVASCRIPT
+LEGENDS
 --------------------------------------------------------------------*/
 
 //Declare arrayy variables for labels and colours
@@ -539,27 +590,29 @@ legendlabels.forEach((label, i) => {
 
 //Declare arrayy variables for labels and colours
 const legendlabels2 = [
-    'Student Nutritional Sites',
     'Community Kitchens',
-    'Chinese Supermarkets',
-    'Middle Eastern Supermarkets',
     'Greeenhouses',
     'Free or Low Cost Meal',
     'Foodbanks',
     'Farmers Markets',
     'Community Gardens',
+    '',
+    'Student Nutritional Sites',
+    'Chinese Supermarkets',
+    'Middle Eastern Supermarkets',
 ];
 
 const legendcolours2 = [
-    '#8BD3C7',
     '#FCCCE5',
-    '#BEB9DC',
-    '#FFEE65',
     '#B3E061',
     '#FFB55A',
     '#BD7EBF',
     '#7EB0D5',
-    '#FD7F6F'
+    '#FD7F6F',
+    '#FFFFFF',
+    '#8BD3C7',
+    '#BEB9DC',
+    '#FFEE65',
 ];
 
 //Declare legend variable using legend div tag
@@ -582,27 +635,6 @@ legendlabels2.forEach((label, i) => {
     item.appendChild(value); //add the value to the legend row
 
     legend2.appendChild(item); //add row to the legend
-});
-
-//checkbox
-
-// Get all the checkboxes
-const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-
-// Iterate over the checkboxes
-checkboxes.forEach(function (checkbox) {
-    // Add an event listener for each checkbox
-    checkbox.addEventListener('change', function () {
-        const layerId = this.parentNode.id; // Get the id of the list item
-        const layer = map.getLayer(layerId); // Get the layer with the same id as the list item
-
-        // If the checkbox is checked, show the layer; otherwise, hide it
-        if (this.checked) {
-            map.setLayoutProperty(layerId, 'visibility', 'visible');
-        } else {
-            map.setLayoutProperty(layerId, 'visibility', 'none');
-        }
-    });
 });
 
 // Fetch GeoJSON from URL and store response

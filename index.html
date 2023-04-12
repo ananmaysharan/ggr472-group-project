@@ -63,22 +63,11 @@
                 <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
                     data-bs-parent="#accordionExample">
                     <div class="accordion-body">
-                        <div class="list-group">
-                            <label class="list-group-item" id="student_nutritional_sites">
-                                <input class="form-check-input me-1" type="checkbox" value="" checked>
-                                Student Nutritional Sites
-                            </label>
+                        <label> Default Layers </label>
+                        <div class="list-group my-2">
                             <label class="list-group-item" id="community_kitchens">
                                 <input class="form-check-input me-1" type="checkbox" value="" checked>
                                 Community Kitchens
-                            </label>
-                            <label class="list-group-item" id="chinesesupermarkets">
-                                <input class="form-check-input me-1" type="checkbox" value="" checked>
-                                Chinese Markets
-                            </label>
-                            <label class="list-group-item" id="middleeasternsupermarkets">
-                                <input class="form-check-input me-1" type="checkbox" value="" checked>
-                                Middle Eastern Markets
                             </label>
                             <label class="list-group-item" id="greeenhouses">
                                 <input class="form-check-input me-1" type="checkbox" value="" checked>
@@ -101,6 +90,21 @@
                                 Community Gardens
                             </label>
                         </div>
+                        <label> Additional Layers </label>
+                        <div class="list-group my-2">
+                            <label class="list-group-item" id="student_nutritional_sites">
+                                <input class="form-check-input me-1" type="checkbox" value="">
+                                Student Nutritional Sites
+                            </label>
+                            <label class="list-group-item" id="chinesesupermarkets">
+                                <input class="form-check-input me-1" type="checkbox" value="">
+                                Chinese Markets
+                            </label>
+                            <label class="list-group-item" id="middleeasternsupermarkets">
+                                <input class="form-check-input me-1" type="checkbox" value="">
+                                Middle Eastern Markets
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -115,11 +119,17 @@
                     data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         <h6>Distribution of Food Establishments in Toronto</h6>
-                        <p>Click on a layer on the dropdown to view the distirbution density of that type of food
-                            establishment across Toronto. The bottom two layers are relative food environment indexes
-                            that were derived to represent the proportion of healthy and less healthy food
-                            retailers. Click here to learn more about each. Toggle various sociodemographic layers using
-                            the checkboxes.</p>
+                        <ul class="list-unstyled">
+                        <li>Click on a layer on the dropdown to view the distirbution density of that type of food
+                            establishment across Toronto.
+                            <ul>
+                              <li>mRFEI and Rmix are relative food environment indexes that represent the proportion of healthy and less healthy food
+                                retailers. Learn more.</li>
+                              <li>Toggle various sociodemographic layers using
+                                the checkboxes.</li>
+                            </ul>
+                          </li>
+                        </ul>
 
                         <div class="dropdown">
                             <button class="btn btn-outline-primary dropdown-toggle btn-sm m-1 col-12" type="button"
@@ -138,22 +148,24 @@
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <a class="dropdown-item" id="mRFEI" href="#">Retail Food Environment Index</a>
-                                <a class="dropdown-item" id="rmix" href="#">Fast Food Restaurant Mix</a>
+                                <a class="dropdown-item" id="mRFEI" href="#">Retail Food Environment Index (mRFEI)</a>
+                                <a class="dropdown-item" id="rmix" href="#">Fast Food Restaurant Mix (RMix)</a>
                             </div>
                         </div>
                         <hr class="hr" />
                         <h6>Socio-Demographic Layers</h6>
-                        <div class="list-group">
-                            <label class="list-group-item" id="visible_minorities">
-                                <input class="form-check-input me-1" type="checkbox" value="">
-                                Visible Minority Population
-                            </label>
-                            <label class="list-group-item" id="low_income">
-                                <input class="form-check-input me-1" type="checkbox" value="">
-                                Low Income Population (2015)
-                            </label>
-                        </div>
+                        <ul class="list-group my-2">
+                            <li class="list-group-item" id="visible_minorities">
+                              <input class="form-check-input me-1" type="radio" name="listGroupRadio" value="" id="radioOne">
+                              <label class="form-check-label" for="radioOne">Visible Minority Population</label>
+                            </li>
+                            <li class="list-group-item">
+                              <input class="form-check-input me-1" type="radio" name="listGroupRadio" value="" id="radioTwo">
+                              <label class="form-check-label" for="radioTwo">Low Income Population</label>
+                            </li>
+                          </ul>
+                          <button type="button" class="btn btn-secondary btn-sm m-1 col-12" id="turnOffButton2">Turn
+                            Layer off</button>
                     </div>
                 </div>
             </div>
