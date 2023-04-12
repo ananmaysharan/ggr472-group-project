@@ -1,5 +1,17 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiYW5hbm1heSIsImEiOiJjbDk0azNmY3oxa203M3huMzhyZndlZDRoIn0.1L-fBYplQMuwz0LGctNeiA'
 
+
+//peak testing
+
+var pointData = [];
+var mapArray = [];
+var labelArray = [];
+var labelCollection;
+var lineCollection;
+var peakHeightCalc = 20000;
+var animateState = true;
+
+
 // max bounds
 const maxBounds = [
     [-79.6772, 43.4400], // SW coords
@@ -9,7 +21,7 @@ const maxBounds = [
 //initialize map
 const map = new mapboxgl.Map({
     container: "map", // container ID
-    style: "mapbox://styles/mapbox/navigation-night-v1", // custom Mapbox Studio style URL
+    style: "mapbox://styles/mapbox/light-v11", // custom Mapbox Studio style URL
     center: [-79.37, 43.715], // starting center in [lng, lat]
     zoom: 10,
     maxZoom: 16,
@@ -46,7 +58,7 @@ map.on('load', () => {
     map.addSource('canfed', {
         type: 'geojson',
         // using a URL for the external geojson to load.
-        data: 'https://raw.githubusercontent.com/ananmaysharan/ggr472-group-project/main/canfed_cleaned.geojson'
+        data: 'https://raw.githubusercontent.com/ananmaysharan/ggr472-group-project/main/data/canfed_cleaned.geojson'
     });
 
     map.addLayer({
@@ -360,8 +372,103 @@ map.on('load', () => {
         });
     });
 
+
+    // turf js peaks
+
+    for (i=0;i < pointData.features.length;i++) {
+
+        let barHeight = pointData.features[i].properties.Value;
+        let barHeightAdj = barHeight/peakHeightCalc;
+        let barShuffle = Math.floor(Math.random() * (1000 - 100) + 100) / 500000;
+
+        // working perk line
+        let peakRandomCentre = barShuffleNum(i, barShuffle, pointData);
+
+        let peakLeftLat = pointData.features[i].geometry.coordinates[1];
+        let peakLeftLng = peakRandomCentre-0.002;
+
+        let peakTopLat = pointData.features[i].geometry.coordinates[1]+barHeightAdj;
+        let peakTopLng = peakRandomCentre;
+
+        let peakRightLat = pointData.features[i].geometry.coordinates[1];
+        let peakRightLng = peakRandomCentre+0.002;
+
+
+        let peakLine = turf.lineString([[peakLeftLng, peakLeftLat], [peakTopLng, peakTopLat], [peakRightLng, peakRightLat]], {height: barHeight});
+
+        let labelPoint = turf.point([peakTopLng, peakTopLat], {height: barHeight});
+
+        mapArray.push(peakLine);
+        labelArray.push(labelPoint);
+
+        if (i == pointData.features.length-1) {
+            console.log('done calc');
+            //console.log('mapArray', mapArray);
+
+            lineCollection = turf.featureCollection(mapArray);
+            labelCollection = turf.featureCollection(labelArray);
+            //console.log('collection', labelCollection);
+            buildLines(lineCollection, labelCollection);
+        }
+    }
+
 });
 
+
+function barShuffleNum(num, random, layer) {
+
+    if( num % 2 == 0 ) {
+        // console.log('even');
+        return layer.features[i].geometry.coordinates[0]+random;
+    } else {
+        // console.log('odd');
+        return layer.features[i].geometry.coordinates[0]-random;
+    }
+
+}
+
+
+function buildLines(lines) {
+
+    // load your geojson
+    map.addSource('bars', {
+      type: 'geojson',
+      lineMetrics: true,
+      data: lines
+    });
+
+    map.addLayer({
+        'id': 'visible_minorities',
+        'type': 'line',
+        'source': 'bars',
+        'layout': {
+            'line-join': 'round',
+            'line-cap': 'round',
+            'visibility': 'none'
+        },
+        'paint': {
+            'line-color': '#111',
+            'line-width': 1,
+            'line-opacity': 0.8,
+            'line-gradient': [
+            'interpolate',
+            ['linear'],
+            ['line-progress'],
+                0,
+                '#fde0dd',
+                0.25,
+                '#fa9fb5',
+                0.5,
+                '#c51b8a',
+                0.75,
+                '#fa9fb5',
+                1,
+                '#fde0dd'
+            ]
+        }
+    });
+
+}
 
 //add event listener for full screen on button click
 document.getElementById('returnbutton').addEventListener('click', () => {
@@ -495,4 +602,12 @@ checkboxes.forEach(function(checkbox) {
     }
   });
 });
+
+// Fetch GeoJSON from URL and store response
+fetch('https://raw.githubusercontent.com/ananmaysharan/ggr472-group-project/main/data/visible_minorities.geojson')
+    .then(response => response.json())
+    .then(response => {
+        console.log(response); //Check response in console
+        pointData = response; // Store geojson as variable using URL from fetch response
+    });
 

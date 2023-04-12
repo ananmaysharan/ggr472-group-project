@@ -20,6 +20,7 @@
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
 
 </head>
 
@@ -105,7 +106,7 @@
                 <div class="accordion-body">
                     <h6>Distribution of Food Establishments in Toronto</h6>
                     <p>Click on a layer on the dropdown to view the distirbution density of that type of food establishment across Toronto. The bottom two layers are relative food environment indexes that were derived to represent the proportion of healthy and less healthy food
-                        retailers. Click here to learn more about each.</p>
+                        retailers. Click here to learn more about each. Toggle various sociodemographic layers using the checkboxes.</p>
         
                     <div class="dropdown">
                           <button class="btn btn-outline-primary dropdown-toggle btn-sm m-1 col-12" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="dropdownMenuButton">
@@ -123,6 +124,14 @@
                             <a class="dropdown-item" id="mRFEI" href="#">Retail Food Environment Index</a>
                             <a class="dropdown-item" id="rmix" href="#">Fast Food Restaurant Mix</a>
                         </div>
+                    </div>
+                    <hr class="hr" />
+                    <h6>Socio-Demographic Layers</h6>
+                    <div class="list-group">
+                        <label class="list-group-item" id="visible_minorities">
+                            <input class="form-check-input me-1" type="checkbox" value="">
+                            Visible Minority Population
+                        </label>
                     </div>
                 </div>
               </div>
