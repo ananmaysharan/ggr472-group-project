@@ -179,7 +179,7 @@ map.on('load', () => {
 
             // Populate the popup and set its coordinates
             // based on the feature found.
-            popup.setLngLat(coordinates).setHTML("<h6>" + name + "</h6>" + "<a href='" + "https://www.google.com/maps/search/?api=1&query=" + coordinates[1] + "," + coordinates[0] + "'>" + address + "</a>"  + "<br>" + type).addTo(map);
+            popup.setLngLat(coordinates).setHTML("<h6>" + name + "</h6>" + "<a href='" + "https://www.google.com/maps/search/?api=1&query=" + coordinates[1] + "," + coordinates[0] + "'>" + address + "</a>" + "<br>" + type).addTo(map);
         });
 
         map.on('mouseleave', layer, () => {
@@ -211,12 +211,12 @@ map.on('load', () => {
             'visibility': 'visible'
         }
     });
-    
+
     map.addSource('middleeasternsupermarkets', {
         'type': 'vector',
         'url': 'mapbox://talhav.74xqz6l5'
     });
-    
+
     map.addLayer({
         'id': 'middleeasternsupermarkets',
         'type': 'circle',
@@ -232,12 +232,12 @@ map.on('load', () => {
             'visibility': 'visible'
         }
     });
-   
+
     map.addSource('greeenhouses', {
         'type': 'vector',
         'url': 'mapbox://talhav.d6upnobv'
     });
- 
+
     map.addLayer({
         'id': 'greeenhouses',
         'type': 'circle',
@@ -253,12 +253,12 @@ map.on('load', () => {
             'visibility': 'visible'
         }
     });
-   
+
     map.addSource('freelowcostmeals', {
         'type': 'vector',
         'url': 'mapbox://talhav.1dp28g3w'
     });
-   
+
     map.addLayer({
         'id': 'freelowcostmeals',
         'type': 'circle',
@@ -274,12 +274,12 @@ map.on('load', () => {
             'visibility': 'visible'
         }
     });
-    
+
     map.addSource('foodbanks', {
         'type': 'vector',
         'url': 'mapbox://talhav.7mhybwqt'
     });
-    
+
     map.addLayer({
         'id': 'foodbanks',
         'type': 'circle',
@@ -295,12 +295,12 @@ map.on('load', () => {
             'visibility': 'visible'
         }
     });
-    
+
     map.addSource('farmersmarkets', {
         'type': 'vector',
         'url': 'mapbox://talhav.dddhkhqd'
     });
-    
+
     map.addLayer({
         'id': 'farmersmarkets',
         'type': 'circle',
@@ -316,12 +316,12 @@ map.on('load', () => {
             'visibility': 'visible'
         }
     });
-    
+
     map.addSource('communitygardens', {
         'type': 'vector',
         'url': 'mapbox://talhav.7tbz1p5p'
     });
-    
+
     map.addLayer({
         'id': 'communitygardens',
         'type': 'circle',
@@ -377,33 +377,33 @@ map.on('load', () => {
 
     // turf js peaks
 
-    for (i=0;i < pointData.features.length;i++) {
+    for (i = 0; i < pointData.features.length; i++) {
 
         let barHeight = pointData.features[i].properties.Value;
-        let barHeightAdj = barHeight/peakHeightCalc;
+        let barHeightAdj = barHeight / peakHeightCalc;
         let barShuffle = Math.floor(Math.random() * (1000 - 100) + 100) / 500000;
 
         // working perk line
         let peakRandomCentre = barShuffleNum(i, barShuffle, pointData);
 
         let peakLeftLat = pointData.features[i].geometry.coordinates[1];
-        let peakLeftLng = peakRandomCentre-0.002;
+        let peakLeftLng = peakRandomCentre - 0.002;
 
-        let peakTopLat = pointData.features[i].geometry.coordinates[1]+barHeightAdj;
+        let peakTopLat = pointData.features[i].geometry.coordinates[1] + barHeightAdj;
         let peakTopLng = peakRandomCentre;
 
         let peakRightLat = pointData.features[i].geometry.coordinates[1];
-        let peakRightLng = peakRandomCentre+0.002;
+        let peakRightLng = peakRandomCentre + 0.002;
 
 
-        let peakLine = turf.lineString([[peakLeftLng, peakLeftLat], [peakTopLng, peakTopLat], [peakRightLng, peakRightLat]], {height: barHeight});
+        let peakLine = turf.lineString([[peakLeftLng, peakLeftLat], [peakTopLng, peakTopLat], [peakRightLng, peakRightLat]], { height: barHeight });
 
-        let labelPoint = turf.point([peakTopLng, peakTopLat], {height: barHeight});
+        let labelPoint = turf.point([peakTopLng, peakTopLat], { height: barHeight });
 
         mapArray.push(peakLine);
         labelArray.push(labelPoint);
 
-        if (i == pointData.features.length-1) {
+        if (i == pointData.features.length - 1) {
             console.log('done calc');
             //console.log('mapArray', mapArray);
 
@@ -419,12 +419,12 @@ map.on('load', () => {
 
 function barShuffleNum(num, random, layer) {
 
-    if( num % 2 == 0 ) {
+    if (num % 2 == 0) {
         // console.log('even');
-        return layer.features[i].geometry.coordinates[0]+random;
+        return layer.features[i].geometry.coordinates[0] + random;
     } else {
         // console.log('odd');
-        return layer.features[i].geometry.coordinates[0]-random;
+        return layer.features[i].geometry.coordinates[0] - random;
     }
 
 }
@@ -434,9 +434,9 @@ function buildLines(lines) {
 
     // load your geojson
     map.addSource('bars', {
-      type: 'geojson',
-      lineMetrics: true,
-      data: lines
+        type: 'geojson',
+        lineMetrics: true,
+        data: lines
     });
 
     map.addLayer({
@@ -453,9 +453,9 @@ function buildLines(lines) {
             'line-width': 1,
             'line-opacity': 0.8,
             'line-gradient': [
-            'interpolate',
-            ['linear'],
-            ['line-progress'],
+                'interpolate',
+                ['linear'],
+                ['line-progress'],
                 0,
                 '#fde0dd',
                 0.25,
@@ -590,19 +590,19 @@ legendlabels2.forEach((label, i) => {
 const checkboxes = document.querySelectorAll('input[type="checkbox"]');
 
 // Iterate over the checkboxes
-checkboxes.forEach(function(checkbox) {
-  // Add an event listener for each checkbox
-  checkbox.addEventListener('change', function() {
-    const layerId = this.parentNode.id; // Get the id of the list item
-    const layer = map.getLayer(layerId); // Get the layer with the same id as the list item
+checkboxes.forEach(function (checkbox) {
+    // Add an event listener for each checkbox
+    checkbox.addEventListener('change', function () {
+        const layerId = this.parentNode.id; // Get the id of the list item
+        const layer = map.getLayer(layerId); // Get the layer with the same id as the list item
 
-    // If the checkbox is checked, show the layer; otherwise, hide it
-    if (this.checked) {
-      map.setLayoutProperty(layerId, 'visibility', 'visible');
-    } else {
-      map.setLayoutProperty(layerId, 'visibility', 'none');
-    }
-  });
+        // If the checkbox is checked, show the layer; otherwise, hide it
+        if (this.checked) {
+            map.setLayoutProperty(layerId, 'visibility', 'visible');
+        } else {
+            map.setLayoutProperty(layerId, 'visibility', 'none');
+        }
+    });
 });
 
 // Fetch GeoJSON from URL and store response
