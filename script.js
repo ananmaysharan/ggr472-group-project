@@ -142,8 +142,6 @@ map.on('load', () => {
 
     // Create a popup, but don't add it to the map yet.
     const popup = new mapboxgl.Popup({
-        closeButton: false,
-        closeOnClick: false
     });
 
     // Add event listeners for both 'places' and 'myLayer'
@@ -167,12 +165,11 @@ map.on('load', () => {
 
             // Populate the popup and set its coordinates
             // based on the feature found.
-            popup.setLngLat(coordinates).setHTML("<h6>" + name + "</h6>" + address + "<br>" + type).addTo(map);
+            popup.setLngLat(coordinates).setHTML("<h6>" + name + "</h6>" + "<a href='" + "https://www.google.com/maps/search/?api=1&query=" + coordinates[1] + "," + coordinates[0] + "'>" + address + "</a>"  + "<br>" + type).addTo(map);
         });
 
         map.on('mouseleave', layer, () => {
             map.getCanvas().style.cursor = '';
-            popup.remove();
         });
     });
 
@@ -400,7 +397,7 @@ const legendlabels = [
 ];
 
 const legendcolours = [
-    '#8BD3C7',
+    '#003f5c',
     '#58508d',
     '#bc5090',
     '#ff6361',
