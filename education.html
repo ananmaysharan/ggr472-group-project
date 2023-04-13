@@ -15,6 +15,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
         crossorigin="anonymous"></script>
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
 </head>
 
 <body>
@@ -40,61 +43,81 @@
             </div>
         </div>
     </nav>
-    <div class="container p-3 mb-2 bg-white text-blue">
+
+    <div class="container p-5 mb-2 bg-white text-blue">
         <h4>Context</h4>
+        <br>
         <p>Since the advent of the pandemic, inflation has sky-rocketed and hit the Canadian middle and lower class very
             hard. Food prices continue to rise as grocery chains end price freezes. These rising economic inequalities
             are evident in food services…
-
+            <br>
+            <br>
             It is expected that 60% more Canadians per month are expected to use food banks in 2023 (Pasieka, 2023).
-            Food inaccessibility is one the rise and vulnerable populations are evidently hit the hardest.
-
-            “More people visited Daily Bread Food Bank locations in March than at any time in the charity's 40-year
+            Food inaccessibility is on the rise and vulnerable populations are evidently hit the hardest.
+            <br>
+            <br>
+            “More people visited Daily Bread Food Bank locations in March 2023 than at any time in the charity's 40-year
             history” - Neil Hetherington, Daily Bread Food Bank CEO
-
+            <br>
+            <br>
             The aim of this project is to provide a useful resource for people seeking accessible food options and
             services in Toronto. By educating the public about food insecurity and affordability in the City of Toronto,
             we hope it will aid and empower anyone trying to meet their food needs.
         </p>
+        <br>
+        <img src="resized_images/groceryheader.jpeg" class="img-fluid">
     </div>
 
-    <div class="container p-3 mb-2 bg-white text-blue">
+    <hr>
+    <div class="container p-5 mb-2 bg-white text-blue">
         <h4>Datasets and Sources</h4>
-
+        <br>
         <p>
 
-            <strong>DineSafe Food Licensing Data (City of Toronto Open Data Portal)</strong>
+            <a href="https://open.toronto.ca/dataset/dinesafe/"><strong>DineSafe Food Licensing Data (City of Toronto Open Data Portal)</strong></a>
 
-            Inspection system based on governmental regulations. All drinking and dining establishments in the city need
+            DineSafe is an food safety inspection system based on governmental regulations, that was used to source community kithcens and student nutrition sites. All drinking and dining establishments in the city need
             to comply with these regulations and continually post the most recent inspection notice near the main
-            entrance.
-
-            This database required the team to filter and delete certain fields as they were not relevant to our
-            project. However, this dataset is important since any establishment in the city who wants to serve food
-            needs to pass these inspections.
+            entrance. Any establishment in the city who wants to serve food needs to pass these inspections.
 
         </p>
         <p>
 
-            <strong>Agincourt Community Services Association (ASCA) Toronto Food Asset Resources</strong>
+            <a href="https://www.agincourtcommunityservices.com/resources-acsas-food-asset-map"><strong>Agincourt Community Services Association (ASCA) Toronto Food Asset Resources</strong></p></a>
+
+            ACSA is a community organization based in Scarbourough. ACSA's Food Asset Map was used to source multiple datasets including food banks, free/low-cost meals, food delivery services, Chinese & Middle Eastern supermarkets, community gardens, greenhouses, farmer's markets, and chain supermarkets.
+        </p>
+
+        <p>
+            <a href="https://communityfridgesto.org/"><strong>Community Fridges Toronto </strong></a>
+
+            Community Fridges TO. is a Toronto-based mutual aid initiative created to nourish communities and neighbours: anyone can donate food as well as take what they need, ensuring accessible food 24/7.
+           
 
         </p>
 
         <p>
-            <strong>Community Fridges Toronto </strong>
 
+            <a id="canfed" href="https://www150.statcan.gc.ca/n1/pub/13-20-0001/132000012022001-eng.htm"><strong>Canadian Food Environment Dataset - CAN-FED (Statistics Canada)</strong></a>
+
+            CAN_FED is a pan-Canadian dataset of retail food environment measures at the dissemination area (DA) level based on food outlet data from the 2018 Statistics Canada Business Register. 
         </p>
 
         <p>
+            <strong> What are mRFEI and Rmix? </strong>
+            <br>
+            <br>
 
-            <strong>Canadian Food Environment Dataset - CAN-FED (Statistics Canada)</strong>
+            Relative food environment variables were derived to represent the proportion of healthy and less healthy food retailers for each DA. 
+            
+            <br>
+            <br>
 
-            This dataset required filtering to get the Toronto specific data from a Canada wide data set. Afterwards, we
-            were able to give the data a spatial component by joining it with Statistics Canada Dissemination Areas 2016
-            Geographies Dataset
+            The modified Retail Food Environment Index (mRFEI) calculates the proportion of food outlets that sell a wide selection of fresh and nutritious food that operate within each buffer and is defined using the following equation:
 
         </p>
 
+        </p>
 
     </div>
 </body>
