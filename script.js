@@ -37,6 +37,7 @@ adding controls
 --------------------------------------------------------------------*/
 
 // Add zoom and rotation controls 
+
 map.addControl(new mapboxgl.NavigationControl());
 
 // Add fullscreen option to the map

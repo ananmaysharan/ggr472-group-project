@@ -7,6 +7,12 @@
     width: 100%;
 }
 
+.navbar {
+    z-index: 1;
+}
+
+
+
 .map-overlay {
     position: relative;
     font: 14px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
