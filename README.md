@@ -6,16 +6,15 @@ The aim of this project is to provide a useful web map based resource for people
 
 ## Accessing the Project
 
-Access the live web map by [clicking here](khttps://ananmaysharan.github.io/ggr472-group-project/).
+Access the live web map by [clicking here](https://ananmaysharan.github.io/ggr472-group-project/).
 
 ## Interactive Functionality
 
 - Popups on hover for each of the differing types of Food Establishments, with information about the resource.  
-- Sidebar Accordion
--- Geocoder, which is configured to prioritize results from the Toronto area.
--- Checkbox based filters that allows the user to turn various layers on and off.
--- CANFED dropdown to show various graduated display layers using Mapbox GL JS interpolated fill-color.
--- Sociodemographic Checkbox that uses use the Turf.js LineString to create 3D peaks of visible minority counts. Special thanks to [William B. Davis's demonstration](https://willymaps.github.io/turfpeaks/).
+- Geocoder, which is configured to prioritize results from the Toronto area.
+- Checkbox based filters that allows the user to turn various layers on and off.
+- CANFED dropdown to show various graduated display layers using Mapbox GL JS interpolated fill-color.
+- Sociodemographic Checkbox that uses use the Turf.js LineString to create 3D peaks of visible minority counts. Special thanks to [William B. Davis's demonstration](https://willymaps.github.io/turfpeaks/).
 
 
 ## Data Sources
