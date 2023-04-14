@@ -346,27 +346,7 @@ map.on('load', () => {
         }
     });
 
-    // map.addSource('communitygardens', {
-    //     'type': 'vector',
-    //     'url': 'mapbox://talhav.7tbz1p5p'
-    // });
-
-    // map.addLayer({
-    //     'id': 'communitygardens',
-    //     'type': 'circle',
-    //     'source': 'communitygardens',
-    //     'source-layer': 'Community_Gardens-27kcls',
-    //     'paint': {
-    //         'circle-radius': 4,
-    //         'circle-color': '#FD7F6F',
-    //         'circle-stroke-width': 1,
-    //         'circle-stroke-color': '#ffffff'
-    //     },
-    //     'layout': {
-    //         'visibility': 'visible'
-    //     }
-    // });
-
+    //Popups for ASCA
 
     // Create a popup, but don't add it to the map yet.
     const popup2 = new mapboxgl.Popup({
@@ -403,7 +383,7 @@ map.on('load', () => {
         });
     });
 
-    /*--------------------------------------------------------------------
+/*--------------------------------------------------------------------
 EDUCATION 
 --------------------------------------------------------------------*/
 
@@ -439,6 +419,8 @@ EDUCATION
         }
     },
     );
+
+    // Dropdown button interactivity
 
     const dropdownMenuButton = document.getElementById('dropdownMenuButton');
 
